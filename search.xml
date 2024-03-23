@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Dapp Development Basic</title>
+    <url>/2023/12/14/Dapp-Development-Basic/</url>
+    <content><![CDATA[<h1 id="Ethereum-basics"><a href="#Ethereum-basics" class="headerlink" title="Ethereum basics"></a>Ethereum basics</h1><h2 id="what-is-Ethereum？"><a href="#what-is-Ethereum？" class="headerlink" title="what is Ethereum？"></a>what is Ethereum？</h2><ul>
+<li><p>From a computer science perspective: Ethereum is a deterministic but practically unbounded state machine, consisting of a globally accessible singleton state and a virtual machine that applies changes to that state.</p>
+<h3 id="Function"><a href="#Function" class="headerlink" title="Function"></a><strong>Function</strong></h3><ul>
+<li>allows users to create and use smart contracts and decentralized apps</li>
+</ul>
+<h3 id="ethereum-vs-bitcoin"><a href="#ethereum-vs-bitcoin" class="headerlink" title="ethereum vs bitcoin"></a>ethereum vs bitcoin</h3><ul>
+<li><p>purpose:</p>
+<ul>
+<li><p>Not only to be a digital currency payment network, but also is intended as a utility currency to pay for use of the ethereum platform as the wold computer.</p>
+<ul>
+<li><blockquote>
+<p>Ethereum’s purpose is not primarily to be a <mark>digital currency payment network</mark></p>
+<p>While the digital currency ether is both integral(必须的) to and necessary for the operation of Ethereum, ether <mark>is intended as a utility currency to pay for use of the Ethereum platform as the world computer.</mark></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>programming language:</p>
+<ul>
+<li>Ethereum uses general-purpose programming blockchain that runs a virtual machine capable of executing code </li>
+<li>Bitcoin uses a very limited scripting language</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Turing-completeness"><a href="#Turing-completeness" class="headerlink" title="Turing completeness"></a>Turing completeness</h3><h4 id="ethereum-Simulate-any-Turing-machine"><a href="#ethereum-Simulate-any-Turing-machine" class="headerlink" title="ethereum Simulate any Turing machine"></a>ethereum Simulate any Turing machine</h4><ul>
+<li>ethereum can execute a stored program in a state machine(ethereum virtual machine) while 读写数据to memory ,which make it as a turing-comlete system.</li>
+<li>Given the limitations of finite memory,ethereum can execute any algorithm that can be computed by any Turing machine.</li>
+</ul>
+<h4 id="“Infinite-loops”"><a href="#“Infinite-loops”" class="headerlink" title="“Infinite loops”"></a>“Infinite loops”</h4><ul>
+<li>Ethereum can’t predict if a smart contract will terminate, or how long it will run, without actually running it (possibly running forever)</li>
+<li>is Undecidable by just looking at the code</li>
+<li>Result:abuse world’s resource</li>
+</ul>
+<h2 id="Gas"><a href="#Gas" class="headerlink" title="Gas"></a>Gas</h2><ul>
+<li>a metering(计量)  mechanism, can allocate scarce resources of the network</li>
+<li>As the EVM executes a smart contract, it carefully accounts for every instruction (computation, data access,etc.)<ul>
+<li>Each instruction has a predetermined cost in units of gas</li>
+</ul>
+</li>
+<li><strong>the amount of gas depends on</strong>:<ul>
+<li>how large of a contract you are trying to execute</li>
+<li>how fast you want to execute it</li>
+</ul>
+</li>
+<li>How does one get gas to pay for computation on the eth world computer?<ul>
+<li>Ether needs to be sent along with a transaction</li>
+<li>Ether needs to be explicitly marked for the purchase of gas,along with an acceptable gas price</li>
+</ul>
+</li>
+<li><strong>Transaction example</strong><ul>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../images/note-dapp-1.png"
+                      alt="note-dapp-1"
+                ></li>
+</ul>
+</li>
+<li><strong>Gas limit</strong><ul>
+<li>the maximum amount of gas you are willing to consume on a transaction</li>
+<li>if you put a gas limit of 50,000 for a simple ETH transfer, the EVM would consume 21,000, and you would get back the remaining 29,000</li>
+<li>if you specify too little gas, for example, a gas limit of 20,000 for a simple ETH<br>transfer, the EVM will consume your 20,000 gas units attempting to fulfill the<br>transaction, but it will not complete<ul>
+<li>The EVM then reverts any changes, but since the miner has already done 20k gas units<br>worth of work, that gas is consumed</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>How to compute: Total fee &#x3D; Units of gas used × (base fee + priority fee)</li>
+</ul>
+<h2 id="Ethereum-1-0-vs-2-0-PoS"><a href="#Ethereum-1-0-vs-2-0-PoS" class="headerlink" title="Ethereum 1.0 vs 2.0: PoS"></a>Ethereum 1.0 vs 2.0: PoS</h2><h3 id="Ethereum-1-0-Architecture-bitcoin"><a href="#Ethereum-1-0-Architecture-bitcoin" class="headerlink" title="Ethereum 1.0 Architecture &#x3D; bitcoin"></a>Ethereum 1.0 Architecture &#x3D; bitcoin</h3><ol>
+<li><p>combine <strong>Consensus</strong> and <strong>execution</strong> as follows:</p>
+<ol>
+<li>Every node assembles(组装) a block containing valid transactions (to establish validity, this peer already pre-executes those transactions);</li>
+<li>The peer tries to solve a <mark>PoW puzzle</mark> </li>
+<li>If the peer is lucky and solves the puzzle, it &#x3D;<mark>disseminates</mark> the block to the network via a gossip protocol;</li>
+<li>Every peer receiving the block validates the solution to the puzzle and all transactions in the block. Effectively, every peer thereby repeats the execution of the lucky peer from its first step. Moreover, all peers execute the transactions sequentially (within one block and across blocks)</li>
+</ol>
+</li>
+<li><p>Limitation: Environmental Factors：energy consumption</p>
+</li>
+</ol>
+<h3 id="Pos（proof-of-stake）"><a href="#Pos（proof-of-stake）" class="headerlink" title="Pos（proof of stake）"></a>Pos（proof of stake）</h3><p>Consensus algorithm:</p>
+<ul>
+<li>Pow(such as bitcoin):miner<mark>slove hard, useless problems to create block</mark><ul>
+<li>etc. calculating the cryptographic hash value that satisfies the threshold requirement</li>
+</ul>
+</li>
+<li>Pos<ul>
+<li>what？is another consensus algorithm used by blockchain networks to achieve distributed consensus and <mark>that cuts on the energy consumption of PoW</mark></li>
+<li>how？随机选择新区块，取决与以太坊上用户的财富（stake）&#x2F;参与验证交易和创建新区块的节点是通过质押一定数量的以太币来获得权益的：The creator of a new block is chosen in a random way, depending on the user’s wealth locked in Ethereum, also defined as “stake”</li>
+<li>锻造or铸造而不是开采：in the PoS system, blocks are said to be ‘forged’ or ‘minted’, not mined</li>
+<li>validator<ul>
+<li>It requires users to<mark>stake their ETH</mark> to become a validator (aka staker)<br>in the network</li>
+<li>Users who validate transactions and create new blocks in this system<br>are referred to as forgers&#x2F;validators</li>
+<li>Validators are responsible for the same thing as miners in PoW<ul>
+<li>ordering transactions and creating new blocks so that all nodes<br>can agree on the state of the network</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Advantage:<ul>
+<li>能源高效&#x2F;降低硬件需求&#x2F;更去中心化&#x2F;分治链<ul>
+<li>better energy efficient<ul>
+<li>Do not need to use lots of energy mining blocks</li>
+</ul>
+</li>
+<li>Reduce hardware requirements<ul>
+<li>Do not need elite hardware to stand a chance of creating new blocks</li>
+</ul>
+</li>
+<li>Stronger immunity to centralization<ul>
+<li>pos lead to more nodes in the network</li>
+</ul>
+</li>
+<li>stronger support for shard chain<ul>
+<li>Key upgrade: scaling(缩放&#x2F;拓展) the ethereum network 扩展以太坊网络</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Wallet-and-account-types"><a href="#Wallet-and-account-types" class="headerlink" title="Wallet and account types"></a>Wallet and account types</h2><ul>
+<li><p>you do not digitally possess your money in your own local storage since your money infomation in stored in blockchain</p>
+</li>
+<li><p>Wallet：<mark>The physical storage and&#x2F;or software that <strong>manages your private key</strong> and <strong>generates your signatures</strong> is called wallet in the world of blockchain</mark></p>
+<ul>
+<li>Software-metamask</li>
+<li>Hardware-trezor</li>
+</ul>
+</li>
+<li><p>key</p>
+<ul>
+<li>private key is generated randomly using ecdsa(Elliptic Curve Digital Signature Algorithm) </li>
+<li>Public key derive（源于） from private key<ul>
+<li>dont lose it,cant recover it</li>
+</ul>
+</li>
+<li>Address&#x3D; 0x+the last 160bits(20bytes) of hash(public key)  using keccak256<br>algorithm<ul>
+<li>an Ethereum address is related to the public key, which is related to your private key</li>
+</ul>
+</li>
+</ul>
+<h3 id="Account-model-in-ethereum"><a href="#Account-model-in-ethereum" class="headerlink" title="Account model in ethereum"></a>Account model in ethereum</h3><ol>
+<li><strong>externally owned account</strong><ol>
+<li>controlled by users</li>
+<li>have private key, address derived from pk ,bitcoin address</li>
+</ol>
+</li>
+<li><strong>Contract account</strong><ol>
+<li>Controlled by contract code only</li>
+<li>no private key</li>
+<li>It has a space to store code and state variables</li>
+<li>address: derived from its creator’s address+nonce</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="Smart-contract-and-transactions"><a href="#Smart-contract-and-transactions" class="headerlink" title="Smart contract and transactions"></a>Smart contract and transactions</h2><h3 id="Smart-contract"><a href="#Smart-contract" class="headerlink" title="Smart contract"></a>Smart contract</h3><ul>
+<li>In the context of Ethereum, we define smart contracts as “immutable computer programs that run deterministically in the context of an Ethereum Virtual Machine as part of the Ethereum protocol.”</li>
+<li>DApp:<ul>
+<li>Applications created with smart contracts and (mostly) static content are called<br>Distributed Applications (DApps)</li>
+</ul>
+</li>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../images/note-dapp-2.png"
+                      alt="note-dapp-2"
+                ></li>
+</ul>
+<h4 id="Creation-and-call"><a href="#Creation-and-call" class="headerlink" title="Creation and call"></a>Creation and call</h4><ul>
+<li>Anybody can create contract for a small fee, by uploading its program code in a special transaction, then the program lives on the blockchain <ul>
+<li>written in bytecode (or compiled from higher-level language) and executed by a EVM</li>
+<li>Own balance of funds(资金余额)</li>
+</ul>
+</li>
+<li>make procedure calls through api(the program exposes),then the contract can send and receive money according to its own logic</li>
+</ul>
+<h4 id="properties"><a href="#properties" class="headerlink" title="properties"></a>properties</h4><ol>
+<li><p>Event-driven, needs to be invoked(call 调用)</p>
+<ol>
+<li>• Cannot run in the background</li>
+<li>• Cannot set a timer</li>
+</ol>
+</li>
+<li><p>function calls can carry ether given to the contract</p>
+</li>
+<li><p>contracts are immutable</p>
+<ul>
+<li>Code can not be change</li>
+<li>cant add new function(even the owner)</li>
+<li>Mistake will stay forever?<ul>
+<li>Locked?</li>
+<li>Can tweaks(调整):run code from state</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="Transaction"><a href="#Transaction" class="headerlink" title="Transaction"></a>Transaction</h3><ul>
+<li><p><strong>What</strong></p>
+<ul>
+<li><p>are signed messages originated by an externally owned account (EOA)</p>
+</li>
+<li><p>transmitted by the Ethereum network</p>
+</li>
+<li><p>recorded on the Ethereum blockchain</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Function</strong>:Trigger a change of state or cause a contract to execute in the EVM.</p>
+<ul>
+<li>If successfully change the state, the transaction will be recorded on the blockchain Ethereum blockchain.</li>
+</ul>
+</li>
+<li><p><strong>how to handlle replay?</strong></p>
+<ul>
+<li>a transaction counter tracking how many transactions one account has sent</li>
+<li>No two transaction from the same account can have the same counter value</li>
+</ul>
+</li>
+<li><p>Atomicity</p>
+<ul>
+<li>Transactions execute in their entirety <ul>
+<li>If execution completes successfully, any changes in the global state are recorded. </li>
+<li>If execution fails due to an error, all of its effects (changes in state) are rolled back as if the transaction never ran. Additionally, the ether spent on gas for the execution is deducted from the originating account.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Lecture-4"><a href="#Lecture-4" class="headerlink" title="Lecture 4"></a>Lecture 4</h1><h2 id="Life-cycle-of-smart-contract"><a href="#Life-cycle-of-smart-contract" class="headerlink" title="Life cycle of smart contract"></a>Life cycle of smart contract</h2><ol>
+<li><strong>Written</strong> in a high-level language, such as Solidity</li>
+<li><strong>Compiled</strong> to the low-level bytecode</li>
+<li><strong>Deployed</strong> on the Ethereum platform using a special contract<br>creation transaction, which is identified as such by being sent to the special contract creation address, namely 0x0<ul>
+<li>Each contract is:<ul>
+<li>identified by an Ethereum address, which is derived from the contract<br>creation transaction as a function of the originating account and nonce</li>
+<li>used in a transaction as the recipient, sending funds to the contract or calling one of the contract’s functions</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>All smart contracts in Ethereum are <strong>executed</strong>, ultimately, because of a transaction initiated from an EOA<ul>
+<li>A contract can create another contract</li>
+<li>A contract can call another</li>
+<li>Transactions execute in their entirety, with any changes in the global state<br>(contracts, accounts, etc.) recorded only if all execution terminates<br>successfully</li>
+</ul>
+</li>
+<li>A contract can be “<strong>deleted</strong>,” removing the code and its internal<br>state (storage) from its address, leaving a blank account (using<br>SELFDESTRUCT)</li>
+</ol>
+<ul>
+<li>Any transactions sent to that account address after the contract has been<br>deleted do not result in any code execution</li>
+<li>Deleting a contract in this way does not remove the transaction history (past)<br>of the contract, since the blockchain itself is immutable</li>
+</ul>
+<h2 id="SOLIDITY"><a href="#SOLIDITY" class="headerlink" title="SOLIDITY"></a>SOLIDITY</h2><h3 id="Special-function"><a href="#Special-function" class="headerlink" title="Special function:"></a>Special function:</h3><p>The receive function is similar to the fallback function, but it is designed specifically<br>to <strong>handle incoming ether without the need for a data call</strong>.</p>
+<ul>
+<li>receive()<br>› It executes on calls to the contract with no data (calldata), e.g., calls made<br>via send() or transfer()</li>
+<li>fallback()<br>› always receives data, but to also receive Ether, if you mark it as payable</li>
+</ul>
+<h1 id="Lecture-6"><a href="#Lecture-6" class="headerlink" title="Lecture 6"></a>Lecture 6</h1><h5 id="Anything-written-on-the-blockchain-cannot-be-changed"><a href="#Anything-written-on-the-blockchain-cannot-be-changed" class="headerlink" title="Anything written on the blockchain cannot be changed"></a>Anything written on the blockchain cannot be changed</h5><ul>
+<li>Yes. </li>
+<li>The immutability of blockchain ensures that data recorded on it remains unchanged and cannot be altered or tampered with.</li>
+</ul>
+<h5 id="How-about-variables-being-updated"><a href="#How-about-variables-being-updated" class="headerlink" title="How about variables being updated?"></a>How about variables being updated?</h5><ul>
+<li>once a variable is written to the blockchain, its value can change over time. </li>
+<li>However, the historical values of the variable are still preserved on the blockchain, providing a transparent and auditable record of its changes.</li>
+</ul>
+<h5 id="How-about-selfdestruct"><a href="#How-about-selfdestruct" class="headerlink" title="How about selfdestruct?"></a>How about selfdestruct?</h5><ul>
+<li>allows for the deletion of a contract from the blockchain. </li>
+<li>This function can be used to remove a contract and its associated data from the blockchain.</li>
+</ul>
+<h5 id="But-the-code-cannot-be-changed-right"><a href="#But-the-code-cannot-be-changed-right" class="headerlink" title="But the code cannot be changed, right?"></a>But the code cannot be changed, right?</h5><p><strong>Yes</strong></p>
+<p>While the code of a smart contract cannot be changed after deployment, it is possible to utilize <strong>upgradability pattern</strong>s during contract development. These patterns allow for the implementation of upgradeable contracts, where the logic of the contract can be modified without altering the code itself. However, such upgradability requires careful design and planning.</p>
+<ul>
+<li><strong>Proxy upgradability patten</strong><ul>
+<li>The basic idea is using a proxy for upgrades. </li>
+<li>The first contract is a simple wrapper or “proxy” which users interact with directly and is in charge of forwarding transactions to and from the second contract, which contains the logic. The key concept to understand is that the logic contract can be replaced while the proxy, or the access point is never changed. </li>
+<li>Both contracts are still immutable in the sense that their code cannot be changed, but the logic contract can simply be swapped by another contract. The wrapper can thus point to a different logic implementation and in doing so, the software is “upgraded”.</li>
+</ul>
+</li>
+</ul>
+<h5 id="Feature-But-no-upgradeability"><a href="#Feature-But-no-upgradeability" class="headerlink" title="Feature! But no upgradeability"></a>Feature! But no upgradeability</h5><ul>
+<li><p>Cannot add a new function </p>
+</li>
+<li><p>Even the owner cannot do this </p>
+<ul>
+<li>In terms of adding new functions to a deployed contract, Ethereum 1.0 does not support it. Once a contract is deployed, new functions cannot be added or removed. This limitation is known as lack of native upgradeability.</li>
+</ul>
+</li>
+<li><p>So mistakes stay forever</p>
+</li>
+</ul>
+<h5 id="Ether-locked-forever"><a href="#Ether-locked-forever" class="headerlink" title="Ether locked forever?"></a>Ether locked forever?</h5><ul>
+<li>If ether (ETH) is locked within a contract, it is typically not permanently locked. Contracts can have mechanisms built in to enable the release or transfer of the locked ether based on predefined conditions or logic within the contract code. </li>
+<li>For example, a contract might have a function to withdraw funds held within it or a specified timeframe for releasing locked funds.</li>
+</ul>
+<h2 id="Dao-decentralized-autonomous-organization"><a href="#Dao-decentralized-autonomous-organization" class="headerlink" title="Dao(decentralized autonomous organization)"></a>Dao(decentralized autonomous organization)</h2><ul>
+<li>Fully autonomous organization, unlike traditional organizations</li>
+<li>Not governed by a single person but is instead governed through code, supposedly protected from human intervention<ul>
+<li>Will operate transparently, according to the code and transaction log</li>
+</ul>
+</li>
+<li>Governance decisions&#x2F;rulings are decided via DAO token voting</li>
+<li>Governance token holders are tasked with stewardship of the protocol</li>
+</ul>
+<p><strong>proposing upgrades</strong></p>
+<ul>
+<li>Protocol upgrades in the DAO setting come through proposals in the<br>form of executable code, on which governance token holders vote</li>
+<li>The proposer has to hold or have been delegated a threshold number<br>of governance tokens</li>
+<li>For a protocol upgrade to be executed, a minimum number of votes is<br>required, which is commonly called a “quorum”</li>
+<li>Examples<br>• Change stability fee in DAI</li>
+</ul>
+<h1 id="lecture-9"><a href="#lecture-9" class="headerlink" title="lecture 9"></a>lecture 9</h1><h2 id="3-roles"><a href="#3-roles" class="headerlink" title="3 roles"></a>3 roles</h2><h3 id="1-client"><a href="#1-client" class="headerlink" title="1. client"></a>1. client</h3><h3 id="2-peers"><a href="#2-peers" class="headerlink" title="2.peers"></a>2.peers</h3><ul>
+<li>Contain endorser and committing peers</li>
+</ul>
+<h3 id="3-orderers"><a href="#3-orderers" class="headerlink" title="3.orderers"></a>3.orderers</h3><h2 id="chaincode"><a href="#chaincode" class="headerlink" title="chaincode"></a>chaincode</h2><blockquote>
+<p>Chaincode, in the context of blockchain technology, particularly in systems like Hyperledger Fabric, is essentially the term used for the “smart contracts” that run on the network nodes. It plays a crucial role in blockchain networks by defining the business logic and rules that govern transactions. </p>
+</blockquote>
+<ol>
+<li><strong>Application-Level Code</strong>: Chaincode is a set of application-level instructions or code that is stored on the blockchain ledger as part of a transaction. This code defines how transaction data is to be handled and processed.</li>
+<li><strong>Modifying World State</strong>: When chaincode runs, it can execute transactions that modify the world state, which is a record of the current state of all assets or data managed by the blockchain.<ul>
+<li><strong>Transaction Logic as a Contract</strong>: The logic of a transaction is written as a contract using programming languages like Go, Java, or JavaScript. This contract, or chaincode, is then executed within secure containers to maintain the integrity and security of the blockchain.</li>
+</ul>
+</li>
+<li><strong>Data Transformation</strong>: The transaction, as dictated by the chaincode, transforms data. This transformation is scoped by the contract on the channel from which it operates, meaning that the chaincode’s effect is confined to a specific context or domain within the blockchain network.</li>
+<li><strong>Installation on Peers</strong>: The chaincode is installed on peers (nodes) in the blockchain network. These peers need access to the asset states (the world state) to perform read and write operations as defined by the chaincode.</li>
+<li><strong>Instantiation on Channels</strong>: Once installed, the chaincode is instantiated on specific channels and peers. A channel in blockchain networks like Hyperledger Fabric represents a private “subnet” of communication between specific members of the network, providing a way to segregate transactions and data for privacy and security.</li>
+<li><strong>Sharing within a Channel</strong>: Within a channel, the chaincode can be shared across all peers or with a specific subset of peers. This allows for flexible and controlled deployment of business logic, depending on the needs and permissions of different network participants.</li>
+</ol>
+<h2 id="channel"><a href="#channel" class="headerlink" title="channel"></a>channel</h2><ol>
+<li><h3 id="Function-of-a-Channel"><a href="#Function-of-a-Channel" class="headerlink" title="Function of a Channel:"></a><strong>Function of a Channel</strong>:</h3><ul>
+<li>A network channel connects various components of a blockchain network: the application, smart contract (chaincode), ledger, peer, and ordering service.</li>
+<li>It creates a domain-specific network that these components use, tailored to specific business concerns or applications.</li>
+</ul>
+</li>
+<li><h3 id="Domain-Specific-Networks"><a href="#Domain-Specific-Networks" class="headerlink" title="Domain-Specific Networks:"></a><strong>Domain-Specific Networks</strong>:</h3><ul>
+<li>Channels are used to segregate different types of business applications within the same blockchain network.</li>
+<li>Examples include separate channels for trade finance, food provenance, or international payments. Each of these channels would have its own unique network configurations and rules.</li>
+</ul>
+</li>
+<li><h3 id="Multiple-Channels-in-Hyperledger-Fabric"><a href="#Multiple-Channels-in-Hyperledger-Fabric" class="headerlink" title="Multiple Channels in Hyperledger Fabric:"></a><strong>Multiple Channels in Hyperledger Fabric</strong>:</h3><ul>
+<li>Hyperledger Fabric supports multiple channels, allowing it to function as a “network of networks.”</li>
+<li>This multi-channel support enables diverse and complex business networks to coexist within the same overarching blockchain infrastructure.</li>
+</ul>
+</li>
+<li><h3 id="Peer-Participation-in-Multiple-Channels"><a href="#Peer-Participation-in-Multiple-Channels" class="headerlink" title="Peer Participation in Multiple Channels:"></a><strong>Peer Participation in Multiple Channels</strong>:</h3><ul>
+<li>A single peer in Hyperledger Fabric can be part of different channels, each with its own ledger and set of smart contracts.</li>
+<li>This allows for versatile interactions across various domains and networks simultaneously.</li>
+</ul>
+</li>
+<li><h3 id="Privacy-and-Security"><a href="#Privacy-and-Security" class="headerlink" title="Privacy and Security:"></a><strong>Privacy and Security</strong>:</h3><ul>
+<li>Channels ensure privacy and security by segregating transactions and ledger states.</li>
+<li>Since peers exchange messages using consensus through channels, this structure maintains privacy between different ledgers.<ul>
+<li>Each channel is a separate blockchain</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="Characteristics-of-Channels"><a href="#Characteristics-of-Channels" class="headerlink" title="Characteristics of Channels:"></a><strong>Characteristics of Channels</strong>:</h3><ul>
+<li>Not all nodes in the network are required to connect to every channel.</li>
+<li>Peers connect to channels based on an access control policy, which governs participation and visibility.</li>
+<li>The ordering service is responsible for ordering transactions that are broadcast to a channel.</li>
+<li>Peers in a channel receive transactions in the exact same order, ensuring consistency and reliability.</li>
+<li>Transactions are delivered in cryptographically linked blocks to maintain the integrity and security of the blockchain.</li>
+<li>Every peer connected to a channel validates the blocks delivered specifically for that channel （channel-specific delivered blocks）and then commits them to the ledger.</li>
+</ul>
+</li>
+</ol>
+<h2 id="Transcation-Recording-in-Fabric-Blockchain"><a href="#Transcation-Recording-in-Fabric-Blockchain" class="headerlink" title="Transcation Recording in Fabric Blockchain"></a>Transcation Recording in Fabric Blockchain</h2><ol>
+<li>Client A1 submits a transaction proposal to its endorser</li>
+<li>Endorser P1 executes PTx1 and endorses it. The endorsed transaction, Tx1, is returned to A1.</li>
+<li>A1 submits the endorsed transaction Tx1 to the orderer,P4.</li>
+<li>P4 groups endorsed transactions sequentially into a block, and sends it to <mark>ALL</mark> peer nodes</li>
+<li>Each peer validates the newly received block, and updates its ledger accordingly.</li>
+</ol>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li>POLYU COMP5566</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Course</category>
+      </categories>
+      <tags>
+        <tag>Note</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《夜以继日》</title>
+    <url>/2021/07/14/movie-1/</url>
+    <content><![CDATA[<p>滨口龙介最擅长以琐碎密集的对白构建出完整、隐秘、暧昧的人与人之间的关系。电影中添加了地震的内容，渲染了略显沉重的灾后气氛，倒下的剧院海报、吼叫着”地铁全都停运了“的人、空中的直升机、似乎受到刺激的蹲在路旁的妇人。亮平以平淡又温暖地参与进这些场景，并在随着人流走回家时遇到逆流的朝子。这也标志着朝子真正说服自己接受亮平，耐人寻味的是，似乎没有什么比这次地震牵绊起”灾后创伤“式的原因更合理的契机和理由了。</p>
+<p>看似总以旁观者姿态出现在情节中的朝子，却内心总有潜藏的、令人惊愕的决心，尤其是在对于麦和亮平这一二重身的评价中。从第一次见到麦的那个鬼魅般的相遇开始，朝子对麦的坚定选择，直到和亮平在一起的五年里才真正土崩瓦解，只是朝子并未意识到。于是坐在麦的车上的朝子，说出了全篇最重要的一句话：“我从出生到现在都像在做梦，一场很幸福的梦。现在梦醒了。”似乎她认为和麦在一起才是真正的清醒。而第二天早上来到海边的时候，朝子张开眼睛，场景就和之前跟亮平一起从渔村回家的路上一样，她也问出了一模一样的话，“这是哪”，而和带她回家的亮平不一样的是，麦回答“海边，却看不到海”。至此戏剧性的，她才真正意识到，原来自己爱的是亮平。明明没有做梦的醒来之后认为自己清醒的回归了现实，但是这下的沉浸是不是又是下一个正在做的梦。现实亦梦，梦亦现实。现实作为一场最巨大的白日梦，我们无时无刻不沉浸于主观幻想之中，如此沉溺却不自知的我们还信誓旦旦相信的东西就是白日梦。</p>
+<p>二重身在夜以继日里并非是噱头，并非是狗血，而是种十分重要的电影语言。麦作为先出现的原型，正版，在当初理应作为正版，但活在记忆里的麦在亮平出现的五年里，显得愈加没有存在感与说服力。但倘若亮平先出现，这两者身份的重要性，就必定会向亮平倾斜。或者还有一种解读是，其实朝子早已忘记了麦，是亮平的出现让她猛然想起两年前的记忆，于是自己对于爱情的欲望也经历了可塑变化，投身于眼前这个亮平的实体上。</p>
+<p>朝子对于麦，是一见钟情的悸动，是七年前爱而不得的心有不甘，于是我合理怀疑那架空、鬼魅、甚至意义不明的相遇，是否是由朝子记忆美化后的产物，因为那必定是她内心咀嚼回味过无数遍的场景。影片始终是由欲望驱动的，而这种热烈的欲望一旦被满足，就会彻底退场。欲望是继续的欲望，是永恒的，无止境的欲望，所以欲望实现之后是无尽的空洞与虚无。</p>
+<p>影片最后，朝子和亮平一起注视这那条肮脏又美丽的河流，片尾曲响起。个人很敬佩滨口龙介能将这样生活化、甚至是略狗血、烂俗的活剧赋予现代性的启示意义。“爱是折磨和温馨的矛盾体，附加盲目的隐痛。”</p>
+]]></content>
+      <categories>
+        <category>Life</category>
+      </categories>
+      <tags>
+        <tag>Movie</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《AGANAI 地下铁沙林事件与我》</title>
+    <url>/2021/09/25/movie-2/</url>
+    <content><![CDATA[<p>前半段影片，讲述历经沙林毒气事件灾难后，努力尝试释怀表现乐观的板原，不断接近和撬开沉默寡言的沙林事件间接参与者荒木浩。在荒木浩渐渐敞开心扉的过程中，他开始道出自己童年、家庭、入教契机，以及乃至20年后的今天仍然信仰奥姆教的缘由。</p>
+<p>影片节奏十分缓慢。板原带着荒木重回故里、打水漂、登山、坐新干线，甚至在坐上共分一副耳机，于优衣库购置新衣服。时常是荒木浩一人在絮絮叨叨，伴随板原偶尔看似无礼实则暗藏尖锐地发问。温馨的勾勒下，暗藏汹涌。这令人不安。</p>
+<p>先前我对影片的期待是，挖掘奥姆真理教制造沙林毒气事件的动机与教徒对麻原本人的诠释，现在却让我满心疑惑。在我尝试理解板原如此拍摄的用意时，我只能认为板原在面对沙林事件对自己生活的巨大影响下，尝试过救赎与希望，所以愿意与朋友身份与荒木沟通，但他所处的立场本是与其对立的，救赎本质上不可能，于是只能转为强迫——影片后半段，荒木被架上一个加害者的位置，拜访板原的父母，听三人协同压迫下遭受的生活的苦，听板原母亲对他贬低的评价“还在信这个吗？真是个可怜的人”，这时他道了歉，究竟是真诚或虚伪，我不得而知。而在结尾一个长镜头里 ，掉帧突出的节奏感忽然鲜明，从地铁里到人行道口，荒木被众多摄影机、收声器“围堵”，最终他回答的是”将一辈子活在内疚自责中”，回到车上后板原问责荒木，说“你没有道歉吧，拒不道歉，这就是你的哲学吗”。影片到这戛然而止。</p>
+<p>影片还有一些令我印象深刻的地方，板原在山顶问荒木冷不冷，开玩笑的说“要不然搞的我在欺负你”，而荒木回答“的确如此”。再买衣服的时候，板原刻意给荒木一般选了红色和绿色的羽绒服，并说“很精神啊”，实则我认为荒木应该更喜欢暗色系。板原要求荒木回家去见二十年未见的父母，荒木问原因，板原说“因为这样你才能感受和我一样的痛苦”。以及最后在人行道采访时，正常镜头穿插着板原手持dv，对着荒木下半张脸并照向天空的一个特写，似乎在泄愤似指着荒木的鼻子说你这个罪人。违和感困扰着我，这种对峙到最后变成了受害者的咄咄逼人，而看似是加害者一方的人却有理由选择置身事外，一旦观众产生了罪不至此的观感，这部纪录片所想传达的内核，便失去了原有的光彩。</p>
+<p>一个仅是信仰奥姆教是“像是抓住了最后一个稻草”的教徒，同时虔诚的信仰之外是背负他人的不理解、有自己的所思所想、乃至于陷入虚无陷阱的人，究竟该被问责的是他，还是始作俑者麻原彰晃、以及打着宗教幌子肆意进行暴恐活动的邪教本身。</p>
+<p>违和感贯穿始末，被挟持而挤出的一点愧疚，只能让人感受到无力与唏嘘。</p>
+<p><a class="link"   href="https://movie.douban.com/subject/35346383/" >@BJFF <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+]]></content>
+      <categories>
+        <category>Life</category>
+      </categories>
+      <tags>
+        <tag>Movie</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《无人知晓》</title>
+    <url>/2021/04/12/movie/</url>
+    <content><![CDATA[<p>绝望和希望往往在对立面，然而他们从绝望中一次次缔造了希望。便利店的临期食品，女高中生的帮助，棒球教练让明参加的那次训练。因为单纯，所以活下去是本能，是狠心无良母亲的嘱托，是日复一日的坚持。</p>
+<p>电影是平淡的，没有波澜，没有高潮迭起，甚至开启弹幕导致很多剧透。看完后我的心情像是枝裕和的镜头一样冗长又沉默，还有长久的压抑，没有刻意煽情，但我知道我有很多无声的泪。</p>
+<p>这是整部片子唯一让我流泪的地方，但哪怕眼泪，也终是收敛的。因为是枝裕和通过《无人知晓》想表述的绝不仅是对孩子们的同情，或是对失职母亲惠子的控诉，他用明媚温馨的镜头语言和那些琐碎微小的生活细节对整个社会提出了最为尖锐，甚至完全无法解决的问题：如何弥补社会福利干预和家庭权益之间的裂痕？如何处理这种兄妹不愿分开的特别案例？如何及早甄别家庭遗弃现象并避免悲剧的发生？</p>
+<p>这样的收敛态度固然源自理性，但更重要的却是是枝裕和深谙的“平静之火”的艺术——表层越是波澜不惊，内里情绪的起伏就越汹涌，最终发泄才越震撼。这样的感伤就像一条狭长的黑色暗流，它裹挟了生活的疲惫与艰辛，浸透了人世的不公和悲苦，它承载了太多无法回答的疑惑，太多难于解决的忧伤，它在繁荣的表层下静默地流向远方，将哀凄的夜色染得更黑。</p>
+]]></content>
+      <categories>
+        <category>Life</category>
+      </categories>
+      <tags>
+        <tag>Movie</tag>
+      </tags>
+  </entry>
+</search>
