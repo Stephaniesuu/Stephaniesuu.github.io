@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="Suueky">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2023/12/14/dapp-development-basic/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="My course note for COMP5566">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dapp Development Basic">
+<meta property="og:url" content="http://example.com/2023/12/14/Dapp-Development-Basic/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="My course note for COMP5566">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/note-dapp-1.png">
+<meta property="og:image" content="http://example.com/images/note-dapp-2.png">
+<meta property="article:published_time" content="2023-12-14T10:01:30.000Z">
+<meta property="article:modified_time" content="2024-03-23T10:07:45.323Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Note">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/note-dapp-1.png">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/3792014-cat-halloween-kitty-witch_109006.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/3792014-cat-halloween-kitty-witch_109006.svg">
+    <meta name="theme-color" content="#d8f0f2">
+    <link rel="shortcut icon" href="/images/3792014-cat-halloween-kitty-witch_109006.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Dapp Development Basic -
+        
+        Stephanie&#39;s virtual garden
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+        <style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    
+<script src="/js/libs/anime.min.js"></script>
+
+    <h1 class="ml13">
+        Stephanie&#39;s virtual garden
+    </h1>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+
+        anime.timeline({loop: true})
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [100,0],
+                translateZ: 0,
+                opacity: [0,1],
+                easing: "easeOutExpo",
+                duration: 1400,
+                delay: (el, i) => 300 + 30 * i
+            }).add({
+            targets: '.ml13 .letter',
+            translateY: [0,-100],
+            opacity: [1,0],
+            easing: "easeInExpo",
+            duration: 1200,
+            delay: (el, i) => 100 + 30 * i
+        });
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            hidePreloaderAfterTimeout(1000); // Hide after 1000 milliseconds once the window has loaded
+        });
+
+        // Backup failsafe: Hide preloader after a maximum of 5000 milliseconds, regardless of the window load event
+        hidePreloaderAfterTimeout(5000);
+
+        function hidePreloaderAfterTimeout(delay) {
+            setTimeout(function () {
+                var preloader = document.querySelector('.preloader');
+                preloader.style.opacity = '0';
+                setTimeout(function () {
+                    preloader.style.display = 'none';
+                }, 200);
+            }, delay);
+        }
+    </script>
+</div>
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+    
+<link rel="stylesheet" href="/fonts/Satoshi/satoshi.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"5rem","h2":"4rem","h3":"2.8rem","h4":"2.5rem","h5":"2.2rem","h6":"2rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":true,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#d8f0f2","secondary":"#d8f2da","default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":false},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Hello, I'm Stephanie.","subtitle":{"text":["Code or hack, apple or pear, Wong Kar-wai or Liam.","I am a slow walker, but I never walk backwards."],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/Stephaniesuu","instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.6.1","navbar":{"auto_hide":true,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"photo":{"path":"/masonry/","icon":"fa-regular fa-camera"},"Archives":{"icon":"fa-regular fa-archive","submenus":{"Articles":"/archives","Categories":"/categories"}},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/Stephaniesuu"}}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2024/3/23 15:29:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":true};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/fontawesome/light.min.css">
+
+    
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
+    
+</div>
+
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container px-6 md:px-12">
+
+    <div class="navbar-content ">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="/images/3792014-cat-halloween-kitty-witch_109006.svg">
+                </a>
+            
+            <a class="logo-title" href="/">
+                
+                Stephanie&#39;s virtual garden
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/masonry/"
+                                        >
+                                    <i class="fa-regular fa-camera fa-fw"></i>
+                                    PHOTO
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives">
+                                                    ARTICLES
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories">
+                                                    CATEGORIES
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/about">
+                                                    ME
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://github.com/Stephaniesuu">
+                                                    GITHUB
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-screen w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/masonry/"
+                        >
+                            <span>
+                                PHOTO
+                            </span>
+                            
+                                <i class="fa-regular fa-camera fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-Archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-Archives">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives">ARTICLES</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories">CATEGORIES</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-About"
+                        >
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-About">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/about">ME</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://github.com/Stephaniesuu">GITHUB</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">2</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">2</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">3</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
+
+        <div class="article-title relative w-full">
+            
+                <div class="w-full flex items-center pt-6 justify-start">
+                    <h1 class="article-title-regular text-second-text-color text-4xl md:text-6xl font-bold px-2 sm:px-6 md:px-8 py-3">Dapp Development Basic</h1>
+                </div>
+            
+            </div>
+
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/avater2.png">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">Suueky</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-12-14 18:01:30</span>
+        <span class="mobile">2023-12-14 18:01:30</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-03-23 18:07:45</span>
+            <span class="mobile">2024-03-23 18:07:45</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/Course/">Course</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Note/">Note</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.8k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>17 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <h1 id="Ethereum-basics"><a href="#Ethereum-basics" class="headerlink" title="Ethereum basics"></a>Ethereum basics</h1><h2 id="what-is-Ethereum？"><a href="#what-is-Ethereum？" class="headerlink" title="what is Ethereum？"></a>what is Ethereum？</h2><ul>
+<li><p>From a computer science perspective: Ethereum is a deterministic but practically unbounded state machine, consisting of a globally accessible singleton state and a virtual machine that applies changes to that state.</p>
+<h3 id="Function"><a href="#Function" class="headerlink" title="Function"></a><strong>Function</strong></h3><ul>
+<li>allows users to create and use smart contracts and decentralized apps</li>
+</ul>
+<h3 id="ethereum-vs-bitcoin"><a href="#ethereum-vs-bitcoin" class="headerlink" title="ethereum vs bitcoin"></a>ethereum vs bitcoin</h3><ul>
+<li><p>purpose:</p>
+<ul>
+<li><p>Not only to be a digital currency payment network, but also is intended as a utility currency to pay for use of the ethereum platform as the wold computer.</p>
+<ul>
+<li><blockquote>
+<p>Ethereum’s purpose is not primarily to be a <mark>digital currency payment network</mark></p>
+<p>While the digital currency ether is both integral(必须的) to and necessary for the operation of Ethereum, ether <mark>is intended as a utility currency to pay for use of the Ethereum platform as the world computer.</mark></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>programming language:</p>
+<ul>
+<li>Ethereum uses general-purpose programming blockchain that runs a virtual machine capable of executing code </li>
+<li>Bitcoin uses a very limited scripting language</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Turing-completeness"><a href="#Turing-completeness" class="headerlink" title="Turing completeness"></a>Turing completeness</h3><h4 id="ethereum-Simulate-any-Turing-machine"><a href="#ethereum-Simulate-any-Turing-machine" class="headerlink" title="ethereum Simulate any Turing machine"></a>ethereum Simulate any Turing machine</h4><ul>
+<li>ethereum can execute a stored program in a state machine(ethereum virtual machine) while 读写数据to memory ,which make it as a turing-comlete system.</li>
+<li>Given the limitations of finite memory,ethereum can execute any algorithm that can be computed by any Turing machine.</li>
+</ul>
+<h4 id="“Infinite-loops”"><a href="#“Infinite-loops”" class="headerlink" title="“Infinite loops”"></a>“Infinite loops”</h4><ul>
+<li>Ethereum can’t predict if a smart contract will terminate, or how long it will run, without actually running it (possibly running forever)</li>
+<li>is Undecidable by just looking at the code</li>
+<li>Result:abuse world’s resource</li>
+</ul>
+<h2 id="Gas"><a href="#Gas" class="headerlink" title="Gas"></a>Gas</h2><ul>
+<li>a metering(计量)  mechanism, can allocate scarce resources of the network</li>
+<li>As the EVM executes a smart contract, it carefully accounts for every instruction (computation, data access,etc.)<ul>
+<li>Each instruction has a predetermined cost in units of gas</li>
+</ul>
+</li>
+<li><strong>the amount of gas depends on</strong>:<ul>
+<li>how large of a contract you are trying to execute</li>
+<li>how fast you want to execute it</li>
+</ul>
+</li>
+<li>How does one get gas to pay for computation on the eth world computer?<ul>
+<li>Ether needs to be sent along with a transaction</li>
+<li>Ether needs to be explicitly marked for the purchase of gas,along with an acceptable gas price</li>
+</ul>
+</li>
+<li><strong>Transaction example</strong><ul>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../images/note-dapp-1.png"
+                      alt="note-dapp-1"
+                ></li>
+</ul>
+</li>
+<li><strong>Gas limit</strong><ul>
+<li>the maximum amount of gas you are willing to consume on a transaction</li>
+<li>if you put a gas limit of 50,000 for a simple ETH transfer, the EVM would consume 21,000, and you would get back the remaining 29,000</li>
+<li>if you specify too little gas, for example, a gas limit of 20,000 for a simple ETH<br>transfer, the EVM will consume your 20,000 gas units attempting to fulfill the<br>transaction, but it will not complete<ul>
+<li>The EVM then reverts any changes, but since the miner has already done 20k gas units<br>worth of work, that gas is consumed</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>How to compute: Total fee &#x3D; Units of gas used × (base fee + priority fee)</li>
+</ul>
+<h2 id="Ethereum-1-0-vs-2-0-PoS"><a href="#Ethereum-1-0-vs-2-0-PoS" class="headerlink" title="Ethereum 1.0 vs 2.0: PoS"></a>Ethereum 1.0 vs 2.0: PoS</h2><h3 id="Ethereum-1-0-Architecture-bitcoin"><a href="#Ethereum-1-0-Architecture-bitcoin" class="headerlink" title="Ethereum 1.0 Architecture &#x3D; bitcoin"></a>Ethereum 1.0 Architecture &#x3D; bitcoin</h3><ol>
+<li><p>combine <strong>Consensus</strong> and <strong>execution</strong> as follows:</p>
+<ol>
+<li>Every node assembles(组装) a block containing valid transactions (to establish validity, this peer already pre-executes those transactions);</li>
+<li>The peer tries to solve a <mark>PoW puzzle</mark> </li>
+<li>If the peer is lucky and solves the puzzle, it &#x3D;<mark>disseminates</mark> the block to the network via a gossip protocol;</li>
+<li>Every peer receiving the block validates the solution to the puzzle and all transactions in the block. Effectively, every peer thereby repeats the execution of the lucky peer from its first step. Moreover, all peers execute the transactions sequentially (within one block and across blocks)</li>
+</ol>
+</li>
+<li><p>Limitation: Environmental Factors：energy consumption</p>
+</li>
+</ol>
+<h3 id="Pos（proof-of-stake）"><a href="#Pos（proof-of-stake）" class="headerlink" title="Pos（proof of stake）"></a>Pos（proof of stake）</h3><p>Consensus algorithm:</p>
+<ul>
+<li>Pow(such as bitcoin):miner<mark>slove hard, useless problems to create block</mark><ul>
+<li>etc. calculating the cryptographic hash value that satisfies the threshold requirement</li>
+</ul>
+</li>
+<li>Pos<ul>
+<li>what？is another consensus algorithm used by blockchain networks to achieve distributed consensus and <mark>that cuts on the energy consumption of PoW</mark></li>
+<li>how？随机选择新区块，取决与以太坊上用户的财富（stake）&#x2F;参与验证交易和创建新区块的节点是通过质押一定数量的以太币来获得权益的：The creator of a new block is chosen in a random way, depending on the user’s wealth locked in Ethereum, also defined as “stake”</li>
+<li>锻造or铸造而不是开采：in the PoS system, blocks are said to be ‘forged’ or ‘minted’, not mined</li>
+<li>validator<ul>
+<li>It requires users to<mark>stake their ETH</mark> to become a validator (aka staker)<br>in the network</li>
+<li>Users who validate transactions and create new blocks in this system<br>are referred to as forgers&#x2F;validators</li>
+<li>Validators are responsible for the same thing as miners in PoW<ul>
+<li>ordering transactions and creating new blocks so that all nodes<br>can agree on the state of the network</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Advantage:<ul>
+<li>能源高效&#x2F;降低硬件需求&#x2F;更去中心化&#x2F;分治链<ul>
+<li>better energy efficient<ul>
+<li>Do not need to use lots of energy mining blocks</li>
+</ul>
+</li>
+<li>Reduce hardware requirements<ul>
+<li>Do not need elite hardware to stand a chance of creating new blocks</li>
+</ul>
+</li>
+<li>Stronger immunity to centralization<ul>
+<li>pos lead to more nodes in the network</li>
+</ul>
+</li>
+<li>stronger support for shard chain<ul>
+<li>Key upgrade: scaling(缩放&#x2F;拓展) the ethereum network 扩展以太坊网络</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Wallet-and-account-types"><a href="#Wallet-and-account-types" class="headerlink" title="Wallet and account types"></a>Wallet and account types</h2><ul>
+<li><p>you do not digitally possess your money in your own local storage since your money infomation in stored in blockchain</p>
+</li>
+<li><p>Wallet：<mark>The physical storage and&#x2F;or software that <strong>manages your private key</strong> and <strong>generates your signatures</strong> is called wallet in the world of blockchain</mark></p>
+<ul>
+<li>Software-metamask</li>
+<li>Hardware-trezor</li>
+</ul>
+</li>
+<li><p>key</p>
+<ul>
+<li>private key is generated randomly using ecdsa(Elliptic Curve Digital Signature Algorithm) </li>
+<li>Public key derive（源于） from private key<ul>
+<li>dont lose it,cant recover it</li>
+</ul>
+</li>
+<li>Address&#x3D; 0x+the last 160bits(20bytes) of hash(public key)  using keccak256<br>algorithm<ul>
+<li>an Ethereum address is related to the public key, which is related to your private key</li>
+</ul>
+</li>
+</ul>
+<h3 id="Account-model-in-ethereum"><a href="#Account-model-in-ethereum" class="headerlink" title="Account model in ethereum"></a>Account model in ethereum</h3><ol>
+<li><strong>externally owned account</strong><ol>
+<li>controlled by users</li>
+<li>have private key, address derived from pk ,bitcoin address</li>
+</ol>
+</li>
+<li><strong>Contract account</strong><ol>
+<li>Controlled by contract code only</li>
+<li>no private key</li>
+<li>It has a space to store code and state variables</li>
+<li>address: derived from its creator’s address+nonce</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="Smart-contract-and-transactions"><a href="#Smart-contract-and-transactions" class="headerlink" title="Smart contract and transactions"></a>Smart contract and transactions</h2><h3 id="Smart-contract"><a href="#Smart-contract" class="headerlink" title="Smart contract"></a>Smart contract</h3><ul>
+<li>In the context of Ethereum, we define smart contracts as “immutable computer programs that run deterministically in the context of an Ethereum Virtual Machine as part of the Ethereum protocol.”</li>
+<li>DApp:<ul>
+<li>Applications created with smart contracts and (mostly) static content are called<br>Distributed Applications (DApps)</li>
+</ul>
+</li>
+<li><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../images/note-dapp-2.png"
+                      alt="note-dapp-2"
+                ></li>
+</ul>
+<h4 id="Creation-and-call"><a href="#Creation-and-call" class="headerlink" title="Creation and call"></a>Creation and call</h4><ul>
+<li>Anybody can create contract for a small fee, by uploading its program code in a special transaction, then the program lives on the blockchain <ul>
+<li>written in bytecode (or compiled from higher-level language) and executed by a EVM</li>
+<li>Own balance of funds(资金余额)</li>
+</ul>
+</li>
+<li>make procedure calls through api(the program exposes),then the contract can send and receive money according to its own logic</li>
+</ul>
+<h4 id="properties"><a href="#properties" class="headerlink" title="properties"></a>properties</h4><ol>
+<li><p>Event-driven, needs to be invoked(call 调用)</p>
+<ol>
+<li>• Cannot run in the background</li>
+<li>• Cannot set a timer</li>
+</ol>
+</li>
+<li><p>function calls can carry ether given to the contract</p>
+</li>
+<li><p>contracts are immutable</p>
+<ul>
+<li>Code can not be change</li>
+<li>cant add new function(even the owner)</li>
+<li>Mistake will stay forever?<ul>
+<li>Locked?</li>
+<li>Can tweaks(调整):run code from state</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="Transaction"><a href="#Transaction" class="headerlink" title="Transaction"></a>Transaction</h3><ul>
+<li><p><strong>What</strong></p>
+<ul>
+<li><p>are signed messages originated by an externally owned account (EOA)</p>
+</li>
+<li><p>transmitted by the Ethereum network</p>
+</li>
+<li><p>recorded on the Ethereum blockchain</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Function</strong>:Trigger a change of state or cause a contract to execute in the EVM.</p>
+<ul>
+<li>If successfully change the state, the transaction will be recorded on the blockchain Ethereum blockchain.</li>
+</ul>
+</li>
+<li><p><strong>how to handlle replay?</strong></p>
+<ul>
+<li>a transaction counter tracking how many transactions one account has sent</li>
+<li>No two transaction from the same account can have the same counter value</li>
+</ul>
+</li>
+<li><p>Atomicity</p>
+<ul>
+<li>Transactions execute in their entirety <ul>
+<li>If execution completes successfully, any changes in the global state are recorded. </li>
+<li>If execution fails due to an error, all of its effects (changes in state) are rolled back as if the transaction never ran. Additionally, the ether spent on gas for the execution is deducted from the originating account.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Lecture-4"><a href="#Lecture-4" class="headerlink" title="Lecture 4"></a>Lecture 4</h1><h2 id="Life-cycle-of-smart-contract"><a href="#Life-cycle-of-smart-contract" class="headerlink" title="Life cycle of smart contract"></a>Life cycle of smart contract</h2><ol>
+<li><strong>Written</strong> in a high-level language, such as Solidity</li>
+<li><strong>Compiled</strong> to the low-level bytecode</li>
+<li><strong>Deployed</strong> on the Ethereum platform using a special contract<br>creation transaction, which is identified as such by being sent to the special contract creation address, namely 0x0<ul>
+<li>Each contract is:<ul>
+<li>identified by an Ethereum address, which is derived from the contract<br>creation transaction as a function of the originating account and nonce</li>
+<li>used in a transaction as the recipient, sending funds to the contract or calling one of the contract’s functions</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>All smart contracts in Ethereum are <strong>executed</strong>, ultimately, because of a transaction initiated from an EOA<ul>
+<li>A contract can create another contract</li>
+<li>A contract can call another</li>
+<li>Transactions execute in their entirety, with any changes in the global state<br>(contracts, accounts, etc.) recorded only if all execution terminates<br>successfully</li>
+</ul>
+</li>
+<li>A contract can be “<strong>deleted</strong>,” removing the code and its internal<br>state (storage) from its address, leaving a blank account (using<br>SELFDESTRUCT)</li>
+</ol>
+<ul>
+<li>Any transactions sent to that account address after the contract has been<br>deleted do not result in any code execution</li>
+<li>Deleting a contract in this way does not remove the transaction history (past)<br>of the contract, since the blockchain itself is immutable</li>
+</ul>
+<h2 id="SOLIDITY"><a href="#SOLIDITY" class="headerlink" title="SOLIDITY"></a>SOLIDITY</h2><h3 id="Special-function"><a href="#Special-function" class="headerlink" title="Special function:"></a>Special function:</h3><p>The receive function is similar to the fallback function, but it is designed specifically<br>to <strong>handle incoming ether without the need for a data call</strong>.</p>
+<ul>
+<li>receive()<br>› It executes on calls to the contract with no data (calldata), e.g., calls made<br>via send() or transfer()</li>
+<li>fallback()<br>› always receives data, but to also receive Ether, if you mark it as payable</li>
+</ul>
+<h1 id="Lecture-6"><a href="#Lecture-6" class="headerlink" title="Lecture 6"></a>Lecture 6</h1><h5 id="Anything-written-on-the-blockchain-cannot-be-changed"><a href="#Anything-written-on-the-blockchain-cannot-be-changed" class="headerlink" title="Anything written on the blockchain cannot be changed"></a>Anything written on the blockchain cannot be changed</h5><ul>
+<li>Yes. </li>
+<li>The immutability of blockchain ensures that data recorded on it remains unchanged and cannot be altered or tampered with.</li>
+</ul>
+<h5 id="How-about-variables-being-updated"><a href="#How-about-variables-being-updated" class="headerlink" title="How about variables being updated?"></a>How about variables being updated?</h5><ul>
+<li>once a variable is written to the blockchain, its value can change over time. </li>
+<li>However, the historical values of the variable are still preserved on the blockchain, providing a transparent and auditable record of its changes.</li>
+</ul>
+<h5 id="How-about-selfdestruct"><a href="#How-about-selfdestruct" class="headerlink" title="How about selfdestruct?"></a>How about selfdestruct?</h5><ul>
+<li>allows for the deletion of a contract from the blockchain. </li>
+<li>This function can be used to remove a contract and its associated data from the blockchain.</li>
+</ul>
+<h5 id="But-the-code-cannot-be-changed-right"><a href="#But-the-code-cannot-be-changed-right" class="headerlink" title="But the code cannot be changed, right?"></a>But the code cannot be changed, right?</h5><p><strong>Yes</strong></p>
+<p>While the code of a smart contract cannot be changed after deployment, it is possible to utilize <strong>upgradability pattern</strong>s during contract development. These patterns allow for the implementation of upgradeable contracts, where the logic of the contract can be modified without altering the code itself. However, such upgradability requires careful design and planning.</p>
+<ul>
+<li><strong>Proxy upgradability patten</strong><ul>
+<li>The basic idea is using a proxy for upgrades. </li>
+<li>The first contract is a simple wrapper or “proxy” which users interact with directly and is in charge of forwarding transactions to and from the second contract, which contains the logic. The key concept to understand is that the logic contract can be replaced while the proxy, or the access point is never changed. </li>
+<li>Both contracts are still immutable in the sense that their code cannot be changed, but the logic contract can simply be swapped by another contract. The wrapper can thus point to a different logic implementation and in doing so, the software is “upgraded”.</li>
+</ul>
+</li>
+</ul>
+<h5 id="Feature-But-no-upgradeability"><a href="#Feature-But-no-upgradeability" class="headerlink" title="Feature! But no upgradeability"></a>Feature! But no upgradeability</h5><ul>
+<li><p>Cannot add a new function </p>
+</li>
+<li><p>Even the owner cannot do this </p>
+<ul>
+<li>In terms of adding new functions to a deployed contract, Ethereum 1.0 does not support it. Once a contract is deployed, new functions cannot be added or removed. This limitation is known as lack of native upgradeability.</li>
+</ul>
+</li>
+<li><p>So mistakes stay forever</p>
+</li>
+</ul>
+<h5 id="Ether-locked-forever"><a href="#Ether-locked-forever" class="headerlink" title="Ether locked forever?"></a>Ether locked forever?</h5><ul>
+<li>If ether (ETH) is locked within a contract, it is typically not permanently locked. Contracts can have mechanisms built in to enable the release or transfer of the locked ether based on predefined conditions or logic within the contract code. </li>
+<li>For example, a contract might have a function to withdraw funds held within it or a specified timeframe for releasing locked funds.</li>
+</ul>
+<h2 id="Dao-decentralized-autonomous-organization"><a href="#Dao-decentralized-autonomous-organization" class="headerlink" title="Dao(decentralized autonomous organization)"></a>Dao(decentralized autonomous organization)</h2><ul>
+<li>Fully autonomous organization, unlike traditional organizations</li>
+<li>Not governed by a single person but is instead governed through code, supposedly protected from human intervention<ul>
+<li>Will operate transparently, according to the code and transaction log</li>
+</ul>
+</li>
+<li>Governance decisions&#x2F;rulings are decided via DAO token voting</li>
+<li>Governance token holders are tasked with stewardship of the protocol</li>
+</ul>
+<p><strong>proposing upgrades</strong></p>
+<ul>
+<li>Protocol upgrades in the DAO setting come through proposals in the<br>form of executable code, on which governance token holders vote</li>
+<li>The proposer has to hold or have been delegated a threshold number<br>of governance tokens</li>
+<li>For a protocol upgrade to be executed, a minimum number of votes is<br>required, which is commonly called a “quorum”</li>
+<li>Examples<br>• Change stability fee in DAI</li>
+</ul>
+<h1 id="lecture-9"><a href="#lecture-9" class="headerlink" title="lecture 9"></a>lecture 9</h1><h2 id="3-roles"><a href="#3-roles" class="headerlink" title="3 roles"></a>3 roles</h2><h3 id="1-client"><a href="#1-client" class="headerlink" title="1. client"></a>1. client</h3><h3 id="2-peers"><a href="#2-peers" class="headerlink" title="2.peers"></a>2.peers</h3><ul>
+<li>Contain endorser and committing peers</li>
+</ul>
+<h3 id="3-orderers"><a href="#3-orderers" class="headerlink" title="3.orderers"></a>3.orderers</h3><h2 id="chaincode"><a href="#chaincode" class="headerlink" title="chaincode"></a>chaincode</h2><blockquote>
+<p>Chaincode, in the context of blockchain technology, particularly in systems like Hyperledger Fabric, is essentially the term used for the “smart contracts” that run on the network nodes. It plays a crucial role in blockchain networks by defining the business logic and rules that govern transactions. </p>
+</blockquote>
+<ol>
+<li><strong>Application-Level Code</strong>: Chaincode is a set of application-level instructions or code that is stored on the blockchain ledger as part of a transaction. This code defines how transaction data is to be handled and processed.</li>
+<li><strong>Modifying World State</strong>: When chaincode runs, it can execute transactions that modify the world state, which is a record of the current state of all assets or data managed by the blockchain.<ul>
+<li><strong>Transaction Logic as a Contract</strong>: The logic of a transaction is written as a contract using programming languages like Go, Java, or JavaScript. This contract, or chaincode, is then executed within secure containers to maintain the integrity and security of the blockchain.</li>
+</ul>
+</li>
+<li><strong>Data Transformation</strong>: The transaction, as dictated by the chaincode, transforms data. This transformation is scoped by the contract on the channel from which it operates, meaning that the chaincode’s effect is confined to a specific context or domain within the blockchain network.</li>
+<li><strong>Installation on Peers</strong>: The chaincode is installed on peers (nodes) in the blockchain network. These peers need access to the asset states (the world state) to perform read and write operations as defined by the chaincode.</li>
+<li><strong>Instantiation on Channels</strong>: Once installed, the chaincode is instantiated on specific channels and peers. A channel in blockchain networks like Hyperledger Fabric represents a private “subnet” of communication between specific members of the network, providing a way to segregate transactions and data for privacy and security.</li>
+<li><strong>Sharing within a Channel</strong>: Within a channel, the chaincode can be shared across all peers or with a specific subset of peers. This allows for flexible and controlled deployment of business logic, depending on the needs and permissions of different network participants.</li>
+</ol>
+<h2 id="channel"><a href="#channel" class="headerlink" title="channel"></a>channel</h2><ol>
+<li><h3 id="Function-of-a-Channel"><a href="#Function-of-a-Channel" class="headerlink" title="Function of a Channel:"></a><strong>Function of a Channel</strong>:</h3><ul>
+<li>A network channel connects various components of a blockchain network: the application, smart contract (chaincode), ledger, peer, and ordering service.</li>
+<li>It creates a domain-specific network that these components use, tailored to specific business concerns or applications.</li>
+</ul>
+</li>
+<li><h3 id="Domain-Specific-Networks"><a href="#Domain-Specific-Networks" class="headerlink" title="Domain-Specific Networks:"></a><strong>Domain-Specific Networks</strong>:</h3><ul>
+<li>Channels are used to segregate different types of business applications within the same blockchain network.</li>
+<li>Examples include separate channels for trade finance, food provenance, or international payments. Each of these channels would have its own unique network configurations and rules.</li>
+</ul>
+</li>
+<li><h3 id="Multiple-Channels-in-Hyperledger-Fabric"><a href="#Multiple-Channels-in-Hyperledger-Fabric" class="headerlink" title="Multiple Channels in Hyperledger Fabric:"></a><strong>Multiple Channels in Hyperledger Fabric</strong>:</h3><ul>
+<li>Hyperledger Fabric supports multiple channels, allowing it to function as a “network of networks.”</li>
+<li>This multi-channel support enables diverse and complex business networks to coexist within the same overarching blockchain infrastructure.</li>
+</ul>
+</li>
+<li><h3 id="Peer-Participation-in-Multiple-Channels"><a href="#Peer-Participation-in-Multiple-Channels" class="headerlink" title="Peer Participation in Multiple Channels:"></a><strong>Peer Participation in Multiple Channels</strong>:</h3><ul>
+<li>A single peer in Hyperledger Fabric can be part of different channels, each with its own ledger and set of smart contracts.</li>
+<li>This allows for versatile interactions across various domains and networks simultaneously.</li>
+</ul>
+</li>
+<li><h3 id="Privacy-and-Security"><a href="#Privacy-and-Security" class="headerlink" title="Privacy and Security:"></a><strong>Privacy and Security</strong>:</h3><ul>
+<li>Channels ensure privacy and security by segregating transactions and ledger states.</li>
+<li>Since peers exchange messages using consensus through channels, this structure maintains privacy between different ledgers.<ul>
+<li>Each channel is a separate blockchain</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="Characteristics-of-Channels"><a href="#Characteristics-of-Channels" class="headerlink" title="Characteristics of Channels:"></a><strong>Characteristics of Channels</strong>:</h3><ul>
+<li>Not all nodes in the network are required to connect to every channel.</li>
+<li>Peers connect to channels based on an access control policy, which governs participation and visibility.</li>
+<li>The ordering service is responsible for ordering transactions that are broadcast to a channel.</li>
+<li>Peers in a channel receive transactions in the exact same order, ensuring consistency and reliability.</li>
+<li>Transactions are delivered in cryptographically linked blocks to maintain the integrity and security of the blockchain.</li>
+<li>Every peer connected to a channel validates the blocks delivered specifically for that channel （channel-specific delivered blocks）and then commits them to the ledger.</li>
+</ul>
+</li>
+</ol>
+<h2 id="Transcation-Recording-in-Fabric-Blockchain"><a href="#Transcation-Recording-in-Fabric-Blockchain" class="headerlink" title="Transcation Recording in Fabric Blockchain"></a>Transcation Recording in Fabric Blockchain</h2><ol>
+<li>Client A1 submits a transaction proposal to its endorser</li>
+<li>Endorser P1 executes PTx1 and endorses it. The endorsed transaction, Tx1, is returned to A1.</li>
+<li>A1 submits the endorsed transaction Tx1 to the orderer,P4.</li>
+<li>P4 groups endorsed transactions sequentially into a block, and sends it to <mark>ALL</mark> peer nodes</li>
+<li>Each peer validates the newly received block, and updates its ledger accordingly.</li>
+</ol>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li>POLYU COMP5566</li>
+</ul>
+
+        </div>
+
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Dapp Development Basic</li>
+        <li><strong>Author:</strong> Suueky</li>
+        <li><strong>Created at
+                :</strong> 2023-12-14 18:01:30</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-03-23 18:07:45
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://stephaniesuu.github.io/project/2023/12/14/Dapp-Development-Basic/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/Note/">#Note</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                
+                    <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="next"
+                        rel="next"
+                        href="/2021/07/14/movie-1/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">《夜以继日》</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          recaptchaV3Key: "wasd",
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">Dapp Development Basic</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ethereum-basics"><span class="nav-number">1.</span> <span class="nav-text">Ethereum basics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#what-is-Ethereum%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">what is Ethereum？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Function"><span class="nav-number">1.1.1.</span> <span class="nav-text">Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ethereum-vs-bitcoin"><span class="nav-number">1.1.2.</span> <span class="nav-text">ethereum vs bitcoin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Turing-completeness"><span class="nav-number">1.1.3.</span> <span class="nav-text">Turing completeness</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gas"><span class="nav-number">1.2.</span> <span class="nav-text">Gas</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ethereum-1-0-vs-2-0-PoS"><span class="nav-number">1.3.</span> <span class="nav-text">Ethereum 1.0 vs 2.0: PoS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ethereum-1-0-Architecture-bitcoin"><span class="nav-number">1.3.1.</span> <span class="nav-text">Ethereum 1.0 Architecture &#x3D; bitcoin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pos%EF%BC%88proof-of-stake%EF%BC%89"><span class="nav-number">1.3.2.</span> <span class="nav-text">Pos（proof of stake）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wallet-and-account-types"><span class="nav-number">1.4.</span> <span class="nav-text">Wallet and account types</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Account-model-in-ethereum"><span class="nav-number">1.4.1.</span> <span class="nav-text">Account model in ethereum</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Smart-contract-and-transactions"><span class="nav-number">1.5.</span> <span class="nav-text">Smart contract and transactions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Smart-contract"><span class="nav-number">1.5.1.</span> <span class="nav-text">Smart contract</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transaction"><span class="nav-number">1.5.2.</span> <span class="nav-text">Transaction</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-4"><span class="nav-number">2.</span> <span class="nav-text">Lecture 4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Life-cycle-of-smart-contract"><span class="nav-number">2.1.</span> <span class="nav-text">Life cycle of smart contract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SOLIDITY"><span class="nav-number">2.2.</span> <span class="nav-text">SOLIDITY</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Special-function"><span class="nav-number">2.2.1.</span> <span class="nav-text">Special function:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-6"><span class="nav-number">3.</span> <span class="nav-text">Lecture 6</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dao-decentralized-autonomous-organization"><span class="nav-number">3.1.</span> <span class="nav-text">Dao(decentralized autonomous organization)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lecture-9"><span class="nav-number">4.</span> <span class="nav-text">lecture 9</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-roles"><span class="nav-number">4.1.</span> <span class="nav-text">3 roles</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-client"><span class="nav-number">4.1.1.</span> <span class="nav-text">1. client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-peers"><span class="nav-number">4.1.2.</span> <span class="nav-text">2.peers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-orderers"><span class="nav-number">4.1.3.</span> <span class="nav-text">3.orderers</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chaincode"><span class="nav-number">4.2.</span> <span class="nav-text">chaincode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#channel"><span class="nav-number">4.3.</span> <span class="nav-text">channel</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Function-of-a-Channel"><span class="nav-number">4.3.1.</span> <span class="nav-text">Function of a Channel:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Domain-Specific-Networks"><span class="nav-number">4.3.2.</span> <span class="nav-text">Domain-Specific Networks:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Multiple-Channels-in-Hyperledger-Fabric"><span class="nav-number">4.3.3.</span> <span class="nav-text">Multiple Channels in Hyperledger Fabric:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Peer-Participation-in-Multiple-Channels"><span class="nav-number">4.3.4.</span> <span class="nav-text">Peer Participation in Multiple Channels:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Privacy-and-Security"><span class="nav-number">4.3.5.</span> <span class="nav-text">Privacy and Security:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Characteristics-of-Channels"><span class="nav-number">4.3.6.</span> <span class="nav-text">Characteristics of Channels:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transcation-Recording-in-Fabric-Blockchain"><span class="nav-number">4.4.</span> <span class="nav-text">Transcation Recording in Fabric Blockchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">4.5.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2024</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-regular fa-computer-classic"></i>&nbsp;&nbsp;<a href="/">Suueky</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        3 posts in total
+                    </span>
+                    
+                        <span>
+                            4.3k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.6.1</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="fa-regular fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+    
+<script src="/js/libs/minimasonry.min.js"></script>
+
+    
+<script src="/js/plugins/masonry.js" type="module"></script>
+
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/js/layouts/toc.js" type="module"></script>
+
+<script src="/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+</body>
+</html>
